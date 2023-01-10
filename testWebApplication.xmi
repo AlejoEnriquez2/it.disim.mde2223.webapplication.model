@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wa:WebApplication
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:wa="https://it.disim.mde2223/webapplication"
+    xsi:schemaLocation="https://it.disim.mde2223/webapplication WebApplication.ecore"
+    name="News Website">
+  <entities
+      name="news">
+    <attributes
+        name="headline"
+        isPK="true"/>
+    <references
+        link="reference.db"/>
+  </entities>
+  <entities
+      name="Sports">
+    <attributes
+        name="players"
+        type="int"/>
+    <attributes
+        name="score"/>
+    <attributes
+        name="headline"/>
+    <references
+        link="sports.db"/>
+  </entities>
+  <pages name="home">
+    <page_contents
+        xsi:type="wa:Form"
+        content_type="text">
+      <content_entities
+          name="Static form entity"/>
+      <form_elements>
+        <element_Type>dropdown</element_Type>
+      </form_elements>
+    </page_contents>
+  </pages>
+  <pages name="contact">
+    <page_contents
+        content_type="dynamic">
+      <content_entities
+          name="dynamic_entites">
+        <attributes
+            name="contact_info"/>
+      </content_entities>
+    </page_contents>
+    <page_contents
+        xsi:type="wa:DContent_List"
+        name="length"
+        length="11"/>
+    <page_contents
+        xsi:type="wa:DContent_Individual"
+        name="index"
+        value="2"/>
+  </pages>
+  <pages name="About"/>
+</wa:WebApplication>

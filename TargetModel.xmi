@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wa="https://it.disim.mde2223/webapplication">
+  <wa:WebApplication>
+    <entities>
+      <attributes name="Attribute"/>
+      <references link="Reference"/>
+      <references link="Reference"/>
+    </entities>
+    <pages name="HomePage">
+      <page_contents xsi:type="wa:Page">
+        <page_contents xsi:type="wa:DContent" name="DContent concept 1" dcontent_entities="/1"/>
+        <page_contents xsi:type="wa:DContent" name="DContent concept 2" dcontent_entities="/2"/>
+        <page_contents xsi:type="wa:DContent" name="DContent concept 3" dcontent_entities="/3"/>
+      </page_contents>
+      <page_contents xsi:type="wa:Page">
+        <page_contents xsi:type="wa:Text" name="SContent concept text"/>
+        <page_contents xsi:type="wa:Form" name="SContent concept form"/>
+        <page_contents xsi:type="wa:Multimedia" name="SContent concept multimedia"/>
+      </page_contents>
+    </pages>
+  </wa:WebApplication>
+  <wa:Entity name="Dcontent entity">
+    <attributes name="Attribute"/>
+    <references link="Reference"/>
+  </wa:Entity>
+  <wa:Entity name="Dcontent entity">
+    <attributes name="Attribute"/>
+    <references link="Reference"/>
+  </wa:Entity>
+  <wa:Entity name="Dcontent entity">
+    <attributes name="Attribute"/>
+    <references link="Reference"/>
+  </wa:Entity>
+</xmi:XMI>

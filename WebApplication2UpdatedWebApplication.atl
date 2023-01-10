@@ -1,0 +1,121 @@
+-- @path UpdatedWebApplication=/it.disim.mde2223.webapplication.model/UpdatedWebApplication.ecore
+-- @path WebApplication=/it.disim.mde2223.webapplication.model/WebApplication.ecore
+
+module WebApplication2UpdatedWebApplication;
+create OUT : UpdatedWebApplication from IN : WebApplication;
+
+helper context WebApplication!Reference def : isReference() : Boolean = 
+	if self.link = 'reference.db' then
+		true
+	else
+		false
+	endif;
+
+helper context WebApplication!Content def : isSContent() : Boolean =
+	if self.content_type = 'SContent' then
+		true
+	else
+		false
+	endif;
+
+helper context UpdatedWebApplication!SContent def : SContentType() : String = 
+	self.scontent_type = 'Text';
+
+lazy rule AttributeRule {
+	from
+		s: WebApplication!Entity
+	to
+		t : UpdatedWebApplication!Attribute (
+			name <- 'Attribute',
+			type <- 'String'
+		)
+}
+
+lazy rule ReferenceRule {
+	from
+		s: WebApplication!Entity
+	to
+		t : UpdatedWebApplication!Reference (
+			link <- 'Reference' 
+		)
+}
+
+lazy rule DContentEntityRule {
+	from
+		s : WebApplication!Content (not s.isSContent())
+	to 
+		t : UpdatedWebApplication!Entity (
+			attributes <- thisModule.AttributeRule(),
+			references <- thisModule.ReferenceRule(),
+			name <- 'Dcontent entity'		
+			
+		)
+}
+
+
+lazy rule DContentRuleNew {
+	from
+		s: WebApplication!Page
+	
+	to
+		t:	UpdatedWebApplication!Page (
+			page_contents <- Sequence {page_content1},
+			page_contents <- Sequence {page_content2},
+			page_contents <- Sequence {page_content3}
+		),
+		page_content1 : UpdatedWebApplication!DContent (
+			name <- 'DContent concept 1',
+			dcontent_entities <- thisModule.DContentEntityRule()
+		),
+		page_content2 : UpdatedWebApplication!DContent (
+			name <- 'DContent concept 2',
+			dcontent_entities <- thisModule.DContentEntityRule()
+		),
+		page_content3 : UpdatedWebApplication!DContent (
+			name <- 'DContent concept 3',
+			dcontent_entities <- thisModule.DContentEntityRule()
+		)
+}
+
+lazy rule SContentTypeRule {
+	from 
+		s : WebApplication!Page
+		
+	to 
+		t : UpdatedWebApplication!Page(
+			page_contents <- Sequence {page_text},	
+			page_contents <- Sequence {page_form},
+			page_contents <- Sequence {page_media}
+		),
+		page_text : UpdatedWebApplication!Text (
+			name <- 'SContent concept text from my PC'	
+		),
+		page_form : UpdatedWebApplication!Form (
+			name <- 'SContent concept form'	
+		),
+		page_media : UpdatedWebApplication!Multimedia (
+			name <- 'SContent concept multimedia'	
+		)		
+}
+
+rule WebApplicationRule {
+	from
+		s : WebApplication!WebApplication
+	to 
+		t : UpdatedWebApplication!WebApplication (			
+			pages <- Sequence {page},
+			entities <- Sequence {entity}
+		),
+		page : UpdatedWebApplication!Page (
+			name <- 'HomePage',
+			page_contents <- thisModule.DContentRuleNew(),
+			page_contents <- thisModule.SContentTypeRule()
+		),
+		entity : UpdatedWebApplication!Entity (
+			attributes <- thisModule.AttributeRule(),
+			references <- thisModule.ReferenceRule(),
+			references <- thisModule.ReferenceRule()		
+		)	
+}
+
+
